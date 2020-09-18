@@ -18,6 +18,14 @@ class Trie:
             p = p.mapping[s[i]]
         p.endofword = True
     
+    def searchWord(self,s):
+        p = self.root
+        for ch in s:
+            if ch not in p.mapping:
+                return False
+            p=p.mapping[ch]
+        return p.endofword
+    
 
 
         
