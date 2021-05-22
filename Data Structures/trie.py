@@ -24,8 +24,4 @@ class Trie:
             if ch not in p.mapping:
                 return False
             p=p.mapping[ch]
-        return p.endofword
-    
-
-
-        
+        return p.endofword  
