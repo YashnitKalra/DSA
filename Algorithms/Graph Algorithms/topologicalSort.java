@@ -10,9 +10,11 @@
 
 // add the vertex to stack if all its children are explored
 
+// topological sorting is that a node should appear after all it's dependencies are met
+
 import java.util.*;
 
-class Topological_sort{
+class topologicalSort{
 
     public static void startTraversing(ArrayList<Integer>[] adjList, int src, Stack<Integer> st, boolean[] visited){
         for(int vertex: adjList[src]){
