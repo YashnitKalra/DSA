@@ -15,24 +15,40 @@ class largestAreaOfRectangle{
         int maxArea = 0;
         Stack<Integer> st = new Stack<>();
         int i = 0;
+        int top;
         while(i < arr.length){
-            while(!st.empty() && arr[st.peek()] >= arr[i]){
-                maxArea = Math.max(maxArea, arr[st.peek()] * (i-st.pop()));
+            if(st.empty() || arr[st.peek()] <= arr[i])
+                st.add(i++);
+            else{
+                top = st.pop();
+                maxArea = Math.max(maxArea, arr[top] * (st.empty() ? i : (i-st.peek()-1) ));
             }
-            st.add(i++);
         }
-        while(!st.empty())
-            maxArea = Math.max(maxArea, arr[st.pop()] * (st.empty()?i:(i-st.peek()-1)) );
+        while(!st.empty()){
+            top = st.pop();
+            maxArea = Math.max(maxArea, arr[top] * (st.empty()?i:(i-st.peek()-1)) );
+        }
         return maxArea;
     }
 
     public static void main(String[] args) {
         int[][] arr = new int[][]{
-            {1,0,0,1,1,1},
-            {1,0,1,1,0,1},
-            {0,1,1,1,1,1},
-            {0,1,1,1,1,1}
-        };
+            {1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1},
+            {1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+            {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+            {0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1},
+            {1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1},
+            {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+            {1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1},
+            {1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 0, 1, 0},
+            {1, 0, 1, 1, 0, 0, 0, 1, 1, 1, 1, 0, 1, 0, 1},
+            {1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1},
+            {1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+            {1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+            {1, 1, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1},
+            {1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1},
+            {1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1}
+          };
         int hist[] = new int[arr[0].length];
         int maxArea = 0;
         for(int[] row: arr){
