@@ -2,31 +2,35 @@ import java.util.*;
 
 class Dijkstra{
 
-    public static long[] runDisjkastra(ArrayList<HashMap<Integer,Long>> adjList, int n, int src){
+    static ArrayList<ArrayList<Node>> adjList;
+
+    static class Node{
+        int dest;
+        long weight;
+        Node(int d, long w){
+            dest = d;
+            weight = w;
+        }
+    }
+
+    public static long[] runDisjkastra(int n, int src){
         long dist[] = new long[n];
-        boolean visited[] = new boolean[n];
 
         // index, distance
-        PriorityQueue<Long[]> pq = new PriorityQueue<>((a,b)->{
-            return a[1]-b[1]>0?1:-1;
+        PriorityQueue<Node> pq = new PriorityQueue<>((a,b)->{
+            return a.weight>b.weight?1:-1;
         });
-
-        for(int i=0;i<n;i++){
-            dist[i] = Long.MAX_VALUE;
-            visited[i] = false;
-        }
-
+        Arrays.fill(dist, Long.MAX_VALUE);
         dist[src] = 0;
-        pq.add(new Long[]{(long)src,(long)0});
+        pq.add(new Node(src,(long)0));
 
         while(pq.size()>0){
-            long temp = pq.poll()[0];
-            int u = (int)temp;
-            visited[u] = true;
-            for(int v:adjList.get(u).keySet()){
-                if(!visited[v] && dist[u]!=Long.MAX_VALUE && dist[u]+adjList.get(u).get(v)<dist[v]){
-                    dist[v] = dist[u] + adjList.get(u).get(v);
-                    pq.add(new Long[]{(long)v,dist[v]});
+            int u = pq.peek().dest;
+            long w = pq.poll().weight;
+            for(Node node: adjList.get(u)){
+                if(w + node.weight < dist[node.dest]){
+                    dist[node.dest] = w + node.weight;
+                    pq.add(new Node(node.dest, dist[node.dest]));
                 }
             }    
         }
@@ -37,21 +41,18 @@ class Dijkstra{
         Scanner obj=new Scanner(System.in);
         int n=obj.nextInt();
         int m=obj.nextInt();
-        ArrayList<HashMap<Integer,Long>> adjList = new ArrayList<>();
+        adjList = new ArrayList<>();
         for(int i=0;i<n;i++)
-            adjList.add(new HashMap<Integer,Long>());
+            adjList.add(new ArrayList<>());
         for(int i=0;i<m;i++){
-            int a=obj.nextInt()-1;
-            int b=obj.nextInt()-1;
-            long d=obj.nextLong();
-            if(adjList.get(a).containsKey(b))
-                adjList.get(a).put(b, Math.min(d, adjList.get(a).get(b)));
-            else
-                adjList.get(a).put(b,d);
+            int a=obj.nextInt()-1, b=obj.nextInt()-1, w=obj.nextInt();
+            adjList.get(a).add(new Node(b, w));
+            adjList.get(b).add(new Node(a, w));
         }
         int s=obj.nextInt()-1;
         int d=obj.nextInt()-1;
-        long dist[]=runDisjkastra(adjList,n,s);
+        long dist[]=runDisjkastra(n,s);
         System.out.print(dist[d]==Long.MAX_VALUE?-1:dist[d]);
+        obj.close();
     }
 }
