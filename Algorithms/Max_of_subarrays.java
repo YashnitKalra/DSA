@@ -13,6 +13,8 @@ class Max_of_subarrays{
         int[] arr = new int[n];
         for(int i=0; i<n; i++)
             arr[i] = obj.nextInt();
+        
+        obj.close();
 
         int[] ans = new int[n-k+1];
         Deque<Integer> d = new LinkedList<>();
