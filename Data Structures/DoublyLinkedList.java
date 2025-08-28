@@ -1,6 +1,6 @@
 class Node<T>{
-    Node prev;
-    Node next;
+    Node<T> prev;
+    Node<T> next;
     T val;
     Node(T val){
         this.val = val;
@@ -19,7 +19,7 @@ class DoublyLinkedList<T>{
     }
 
     void insert(T val){
-        Node node = new Node(val);
+        Node<T> node = new Node<T>(val);
         if(head==null){
             head = tail = node;
         }
@@ -30,8 +30,8 @@ class DoublyLinkedList<T>{
         }
     }
 
-    Node popFirst(){
-        Node res = head;
+    Node<T> popFirst(){
+        Node<T> res = head;
         head = head.next;
         if(head==null)
             tail = null;
@@ -40,8 +40,8 @@ class DoublyLinkedList<T>{
         return res;
     }
 
-    Node popLast(){
-        Node res = tail;
+    Node<T> popLast(){
+        Node<T> res = tail;
         tail = tail.prev;
         if(tail==null)
             head = null;
@@ -58,7 +58,7 @@ class DoublyLinkedList<T>{
         return tail.val;
     }
 
-    void remove(Node node){
+    void remove(Node<T> node){
         if(node==head) popFirst();
         else if(node==tail) popLast();
         else{
